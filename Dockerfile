@@ -1,11 +1,12 @@
-FROM openjdk:8-jre-alpine3.9
-LABEL maintainer="Shivakumar Ningappa <shivagowda@gmail.com>"
-
-# Copy the already build jar to the image
-COPY target/jhttp-1.0-SNAPSHOT.jar /bin/
-
-# Expose default port for external communication
-EXPOSE 8888
-
+FROM alpine:3.12
+# Add Maintainer Info
+LABEL maintainer="Nofar Bluestein <nofarb@gmail.com>"
+# Copy the Go binary into the image. The Go binary must be
+# statically compiled with CGO disabled. Use the following
+# build command:
+#
+#   CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo
+#
+ADD go-sample-app /bin/
 # Command to run the executable
-ENTRYPOINT [ "java" ,"-jar",  "/bin/jhttp-1.0-SNAPSHOT.jar" ]
+ENTRYPOINT ["/bin/go-sample-app"]
